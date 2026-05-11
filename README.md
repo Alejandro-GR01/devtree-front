@@ -1,8 +1,17 @@
 # DevTree Frontend
 
-Aplicación frontend para DevTree — red social que agrupa todos tus perfiles sociales en un solo enlace.
+Aplicación frontend para **DevTree** — una red social que agrupa todos tus perfiles sociales (Instagram, TikTok, GitHub, YouTube, etc.) en un solo enlace personalizado.
 
-## Tecnologías
+## Features
+
+- **Perfil público con link personalizado** — compartí un solo enlace (`devtree.com/tu-handle`) con todos tus perfiles
+- **Drag & Drop** — reordená tus links sociales arrastrándolos
+- **Dashboard admin** — panel para gestionar links y perfil
+- **Búsqueda de handles** — verificá disponibilidad antes de registrarte
+- **Subida de imagen** — image de perfil con Cloudinary
+- **Autenticación JWT** — login y registro con tokens
+
+## Tech Stack
 
 | Tecnología | Versión | Uso |
 |------------|---------|-----|
@@ -11,85 +20,147 @@ Aplicación frontend para DevTree — red social que agrupa todos tus perfiles s
 | Vite | ^7.3.1 | Bundler y dev server |
 | Tailwind CSS | ^4.1.18 | Estilos utilitarios |
 | TanStack Query | ^5.90.21 | Cache y estado del servidor |
-| TanStack Query Devtools | ^5.91.3 | Debugging de queries |
 | React Router | ^7.12.0 | Routing SPA |
 | Axios | ^1.13.5 | HTTP client |
-| React Hook Form | ^7.75.0 | Manejo de formularios |
+| React Hook Form | ^7.75.0 | Formularios |
 | Sonner | ^2.0.7 | Toast notifications |
-| @dnd-kit/react | ^0.3.2 | Drag & drop de links |
+| @dnd-kit/react | ^0.3.2 | Drag & drop |
 | @headlessui/react | ^2.2.9 | Componentes UI headless |
-| @heroicons/react | ^2.2.0 | Iconos SVG |
 | react-slugify | ^5.0.0 | Slugificación de handles |
-| @vitejs/plugin-react-swc | ^4.2.2 | Fast refresh con SWC |
 
-## Rutas
+## Prerrequisitos
 
-| Path | Componente | Layout | Descripción |
-|------|-----------|--------|-------------|
-| `/` | `HomeViewe` | — | Landing page con buscador de handles |
-| `/auth/login` | `LoginView` | `AuthLayout` | Inicio de sesión |
-| `/auth/register` | `RegisterView` | `AuthLayout` | Registro de usuario |
-| `/admin` | `LinkTreeView` | `AppLayout` | Admin: edición de links sociales |
-| `/admin/profile` | `ProfileView` | `AppLayout` | Admin: edición de perfil |
-| `/:handle` | `HandleView` | `AuthLayout` | Perfil público de un usuario |
-| `/404` | `NotFoundView` | `AuthLayout` | Página no encontrada |
-| `*` | `NotFoundView` | `AuthLayout` | Catch-all |
+- **Node.js** >= 18
+- **pnpm** >= 8 (`npm install -g pnpm`)
+- Backend corriendo en `http://localhost:4000` ([DevTree Backend](https://github.com/tu-usuario/devtree-backend))
 
-## Estructura del proyecto
+## Instalación
 
-```
-src/
-├── api/
-│   └── DevTreeApi.ts          # Funciones de API (login, getUser, updateProfile, etc.)
-├── components/
-│   ├── nav/
-│   │   ├── AdminNavigation.tsx # Nav del panel admin
-│   │   └── HomeNavigation.tsx  # Nav de la landing
-│   ├── DevTree.tsx             # Layout principal del dashboard admin
-│   ├── DevTreeInput.tsx        # Input individual para link social
-│   ├── DevTreeLink.tsx         # Visualización de link (drag & drop)
-│   ├── ErrorMessage.tsx        # Componente de error para formularios
-│   ├── HandleData.tsx          # Vista de perfil público
-│   ├── Header.tsx              # Header global
-│   ├── Logo.tsx                # Logo de la app
-│   ├── NavigationTabs.tsx      # Tabs de navegación admin
-│   └── SearchForm.tsx          # Buscador de handles disponibles
-├── config/
-│   └── axios.ts                # Configuración de Axios + interceptor JWT
-├── data/
-│   └── social.ts               # Datos de redes sociales disponibles
-├── layouts/
-│   ├── AppLayout.tsx           # Layout del dashboard admin
-│   └── AuthLayout.tsx          # Layout de autenticación
-├── types/
-│   └── index.ts                # Tipos TypeScript (User, SocialNetwork, etc.)
-├── utils/
-│   └── index.ts                # Utilidades (classNames, isValidURL)
-├── views/
-│   ├── HandleView.tsx          # Vista pública de perfil
-│   ├── HomeViewe.tsx           # Landing page
-│   ├── LinkTreeView.tsx        # Edición de links
-│   ├── LoadingView.tsx         # Estado de carga
-│   ├── LoginView.tsx           # Login
-│   ├── NotFoundView.tsx        # 404
-│   ├── ProfileView.tsx         # Edición de perfil
-│   └── RegisterView.tsx        # Registro
-├── main.tsx                    # Entry point
-├── router.tsx                  # Configuración de rutas
-└── index.css                   # Estilos globales + Tailwind
+```bash
+# 1. Clonar el repo
+git clone https://github.com/tu-usuario/devtree-front.git
+cd devtree-front
+
+# 2. Instalar dependencias
+pnpm install
+
+# 3. Configurar variables de entorno (ver abajo)
+
+# 4. Iniciar en desarrollo
+pnpm dev
 ```
 
-## Variables de entorno
+## Variables de Entorno
+
+Crear un archivo `.env.local` en la raíz:
 
 ```env
 VITE_API_URL=http://localhost:4000
 ```
 
+| Variable | Descripción | Obligatoria | Default |
+|----------|-------------|-------------|---------|
+| `VITE_API_URL` | URL base del backend | Sí | — |
+
 ## Scripts
 
 ```bash
-pnpm dev        # Inicia servidor de desarrollo
+pnpm dev        # Inicia servidor de desarrollo (Vite)
 pnpm build      # Compila TypeScript + Vite build
 pnpm preview    # Previsualiza build de producción
-pnpm lint       # ESLint
+pnpm lint       # Ejecuta ESLint
 ```
+
+## Rutas
+
+| Path | Componente | Layout | Auth | Descripción |
+|------|-----------|--------|------|-------------|
+| `/` | `HomeViewe` | — | No | Landing page con buscador |
+| `/auth/login` | `LoginView` | `AuthLayout` | No | Inicio de sesión |
+| `/auth/register` | `RegisterView` | `AuthLayout` | No | Registro |
+| `/admin` | `LinkTreeView` | `AppLayout` | Sí | Edición de links |
+| `/admin/profile` | `ProfileView` | `AppLayout` | Sí | Edición de perfil |
+| `/:handle` | `HandleView` | `AuthLayout` | No | Perfil público |
+| `/404` | `NotFoundView` | `AuthLayout` | No | No encontrada |
+| `*` | `NotFoundView` | `AuthLayout` | No | Catch-all |
+
+## API Endpoints
+
+El frontend se conecta al backend en `VITE_API_URL`. Endpoints principales:
+
+| Método | Endpoint | Auth | Descripción |
+|--------|----------|------|-------------|
+| POST | `/auth/login` | No | Login → devuelve token JWT |
+| POST | `/auth/register` | No | Registro de usuario |
+| GET | `/user` | Bearer | Obtener perfil autenticado |
+| PATCH | `/user` | Bearer | Actualizar perfil |
+| POST | `/user/image` | Bearer | Subir imagen (FormData) |
+| GET | `/:handle` | No | Obtener perfil público |
+| POST | `/search` | No | Buscar handle disponible |
+
+## Deploy a GitHub Pages
+
+```bash
+pnpm deploy
+```
+
+Esto hace build + deploy a la branch `gh-pages` usando la librería `gh-pages`.
+
+### Pre-requisitos
+
+1. El repo debe existir en GitHub con remote `origin` configurado
+2. En `vite.config.ts`, `base` debe coincidir con el nombre del repo:
+   ```ts
+   base: '/nombre-de-tu-repo/',
+   ```
+   (Si es user site `tu-usuario.github.io`, usar `base: '/'`)
+
+3. En GitHub, ir a **Settings > Pages** y seleccionar **Deploy from a branch** → `gh-pages` → `/ (root)`
+
+## Estructura del Proyecto
+
+```
+src/
+├── api/
+│   └── DevTreeApi.ts              # Funciones de API
+├── components/
+│   ├── nav/
+│   │   ├── AdminNavigation.tsx    # Nav del dashboard
+│   │   └── HomeNavigation.tsx     # Nav de la landing
+│   ├── DevTree.tsx                # Layout dashboard admin
+│   ├── DevTreeInput.tsx           # Input para link social
+│   ├── DevTreeLink.tsx            # Visualización de link
+│   ├── ErrorMessage.tsx           # Error de formularios
+│   ├── HandleData.tsx             # Perfil público
+│   ├── Header.tsx                 # Header global
+│   ├── Logo.tsx                   # Logo
+│   ├── NavigationTabs.tsx         # Tabs de navegación
+│   └── SearchForm.tsx             # Buscador de handles
+├── config/
+│   └── axios.ts                   # Axios + interceptor JWT
+├── data/
+│   └── social.ts                  # Redes sociales disponibles
+├── layouts/
+│   ├── AppLayout.tsx              # Layout dashboard
+│   └── AuthLayout.tsx             # Layout auth
+├── types/
+│   └── index.ts                   # Tipos TypeScript
+├── utils/
+│   └── index.ts                   # Utilidades
+├── views/
+│   ├── HandleView.tsx             # Perfil público
+│   ├── HomeViewe.tsx              # Landing
+│   ├── LinkTreeView.tsx           # Edición de links
+│   ├── LoadingView.tsx            # Loading state
+│   ├── LoginView.tsx              # Login
+│   ├── NotFoundView.tsx           # 404
+│   ├── ProfileView.tsx            # Edición de perfil
+│   └── RegisterView.tsx           # Registro
+├── main.tsx                       # Entry point
+├── router.tsx                     # Rutas
+└── index.css                      # Estilos globales
+```
+
+## License
+
+MIT
