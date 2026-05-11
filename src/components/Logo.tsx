@@ -1,10 +1,10 @@
 import { Link } from "react-router"
-
+import logo from '../assets/logo.svg'
 
 const Logo = () => {
   return (
    <Link to={'/'} >
-       <img src="/logo.svg" className="w-full block" alt="Logo DevTree" />
+       <img src={logo} className="w-full block" alt="Logo DevTree" />
    </Link>
   )
 }
