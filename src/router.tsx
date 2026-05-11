@@ -11,9 +11,9 @@ import HomeViewe from "./views/HomeViewe";
 
 const Router = () => {
   return (
-    <BrowserRouter >
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <Routes >
-        <Route path="/" element={<HomeViewe />} />
+        <Route index element={<HomeViewe />} />
         <Route element={<AuthLayout />}>
           <Route path="/auth/login" element={<LoginView />} />
           <Route path="/auth/register" element={<RegisterView />} />
