@@ -14,7 +14,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route index element={<HomeViewe />} />
-        <Route element={<AuthLayout />}>
+        {/* <Route element={<AuthLayout />}>
           <Route path="/auth/login" element={<LoginView />} />
           <Route path="/auth/register" element={<RegisterView />} />
         </Route>
@@ -27,11 +27,8 @@ const Router = () => {
         </Route>
         <Route path="/404" element={<AuthLayout />}>
           <Route index element={<NotFoundView />} />
-        </Route>
-        <Route
-          path="*"
-          element={<AuthLayout />}
-        >
+        </Route> */}
+        <Route path="*" element={<AuthLayout />}>
           <Route index element={<NotFoundView />} />
         </Route>
       </Routes>
